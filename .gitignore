@@ -1,0 +1,25 @@
+# ==========================================
+# Zero Trust API Security Gateway - .gitignore
+# ==========================================
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+secrets/
+
+# SSL / TLS certificates and private keys
+*.pem
+*.key
+*.crt
+
+# Node dependencies
+node_modules/
+
+# Python cache & virtual environments
+__pycache__/
+.venv/
+
+# Operating system metadata
+.DS_Store
+

@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attack Simulator - ZERO-TRUST API SECURITY GATEWAY</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="attack-simulator.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ================= SIDEBAR NAVIGATION ================= -->
+    <aside class="sidebar">
+      
+      <div class="sidebar-top">
+        <!-- Brand Header -->
+        <a href="dashboard.html" class="sidebar-brand-link" style="text-decoration:none;">
+          <div class="sidebar-brand">
+            <svg class="brand-shield-icon" viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="sideShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00d2ff"/>
+                  <stop offset="50%" stop-color="#0284c7"/>
+                  <stop offset="100%" stop-color="#1e3a8a"/>
+                </linearGradient>
+              </defs>
+              <path d="M30 4L7 14V32C7 48.5 17 62 30 66C43 62 53 48.5 53 32V14L30 4Z" 
+                    fill="url(#sideShieldGrad)" 
+                    stroke="#38bdf8" 
+                    stroke-width="2.5"/>
+              <rect x="23" y="32" width="14" height="12" rx="2.5" fill="#ffffff"/>
+              <path d="M26 32V27C26 24.8 27.8 23 30 23C32.2 23 34 24.8 34 27V32" 
+                    stroke="#ffffff" 
+                    stroke-width="2.5" 
+                    stroke-linecap="round"/>
+            </svg>
+            <div class="brand-text">
+              <span class="brand-title">ZERO-TRUST</span>
+              <span class="brand-subtitle">API SECURITY GATEWAY</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Navigation Links -->
+        <nav class="sidebar-nav">
+          <a href="dashboard.html" class="nav-item">
+            <!-- Home / Dashboard Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+
+          <a href="api-traffic.html" class="nav-item">
+            <!-- Bar Chart Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            <span>API Traffic</span>
+          </a>
+
+          <a href="threat-center.html" class="nav-item">
+            <!-- Shield Exclamation Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span>Threat Center</span>
+          </a>
+
+          <a href="attack-simulator.html" class="nav-item active">
+            <!-- Flask / Attack Simulator Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/>
+              <line x1="8.5" y1="2" x2="15.5" y2="2"/>
+              <line x1="7" y1="16" x2="17" y2="16"/>
+            </svg>
+            <span>Attack Simulator</span>
+          </a>
+
+          <a href="policies.html" class="nav-item">
+            <!-- Document / Policy Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+            <span>Policies</span>
+          </a>
+
+          <a href="settings.html" class="nav-item">
+            <!-- Settings Gear Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Sidebar Bottom System Status -->
+      <div class="sidebar-bottom">
+        <div class="system-status-card">
+          <div class="status-header">
+            <span class="status-indicator-dot"></span>
+            <span>System Online</span>
+          </div>
+          <div class="status-meta">
+            <span>All systems operational</span>
+            <span>Last Updated</span>
+            <span class="status-time" id="sidebarClockTime">Oct 05, 2026 12:58:31</span>
+          </div>
+        </div>
+
+        <a href="zerotrust.html" class="btn-logout" title="Sign out to Login Screen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Logout</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="main-wrapper">
+      
+      <!-- Top Search & Profile Bar -->
+      <header class="top-header-bar">
+        
+        <div class="search-container">
+          <span class="search-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </span>
+          <input 
+            type="text" 
+            id="globalSearch" 
+            class="search-input" 
+            placeholder="Search requests, users, endpoints..."
+          />
+        </div>
+
+        <div class="header-actions">
+          
+          <!-- System Protected Badge -->
+          <div class="system-protection-badge">
+            <span class="status-indicator-dot"></span>
+            <div class="badge-text-group">
+              <span class="badge-title">System Protected</span>
+              <span class="badge-subtitle">Zero-Trust Active</span>
+            </div>
+          </div>
+
+          <!-- Notification Bell (Backend-ready) -->
+          <button type="button" class="notification-btn" aria-label="Notifications" id="notificationBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span class="notification-count" id="notificationCount">3</span>
+          </button>
+
+          <!-- Admin User Profile -->
+          <div class="user-profile-widget">
+            <div class="user-avatar-circle">A</div>
+            <div class="user-info-text">
+              <span class="user-name">Admin</span>
+              <span class="user-email">admin@example.com</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Header Banner -->
+      <div class="sim-header-banner">
+        <div class="sim-title-group">
+          <h1 class="sim-main-title">Attack Simulator</h1>
+          <p class="sim-subtext">Test the Zero-Trust engine with simulated security threats</p>
+        </div>
+      </div>
+
+      <!-- ================= 2-COLUMN SIMULATOR WORKSPACE ================= -->
+      <div class="simulator-main-layout">
+        
+        <!-- ================= LEFT COLUMN ================= -->
+        <div class="sim-left-column">
+          
+          <!-- 1. Attack Scenario Selector Cards (3 Cards) -->
+          <section class="attack-cards-grid">
+            
+            <!-- Card 1: Credential Compromise (Active) -->
+            <div class="attack-card card-credential active" data-scenario="credential">
+              <div class="attack-card-header">
+                <div class="attack-icon-box box-red">
+                  <!-- Hacker / Hoodie Icon -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                    <path d="M12 3c-4.4 0-8 3.6-8 8v2h16v-2c0-4.4-3.6-8-8-8z"/>
+                  </svg>
+                </div>
+                <div class="attack-card-meta">
+                  <h3 class="attack-title">Credential Compromise</h3>
+                </div>
+              </div>
+              <p class="attack-desc">Simulate stolen credentials from a new device and location.</p>
+              <button class="btn-simulate btn-sim-red">
+                <span>Simulate Attack</span>
+                <span class="btn-arrow">&rarr;</span>
+              </button>
+            </div>
+
+            <!-- Card 2: API Abuse -->
+            <div class="attack-card card-abuse" data-scenario="abuse">
+              <div class="attack-card-header">
+                <div class="attack-icon-box box-amber">
+                  <!-- Bar Chart / Volume Surge Icon -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                  </svg>
+                </div>
+                <div class="attack-card-meta">
+                  <h3 class="attack-title">API Abuse</h3>
+                </div>
+              </div>
+              <p class="attack-desc">Generate abnormal request frequency and detect abuse patterns.</p>
+              <button class="btn-simulate btn-sim-outline">
+                <span>Simulate Attack</span>
+                <span class="btn-arrow">&rarr;</span>
+              </button>
+            </div>
+
+            <!-- Card 3: Privilege Misuse -->
+            <div class="attack-card card-privilege" data-scenario="privilege">
+              <div class="attack-card-header">
+                <div class="attack-icon-box box-purple">
+                  <!-- User Shield / Admin Misuse Icon -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                </div>
+                <div class="attack-card-meta">
+                  <h3 class="attack-title">Privilege Misuse</h3>
+                </div>
+              </div>
+              <p class="attack-desc">Attempt sensitive API endpoints as a normal user.</p>
+              <button class="btn-simulate btn-sim-outline">
+                <span>Simulate Attack</span>
+                <span class="btn-arrow">&rarr;</span>
+              </button>
+            </div>
+
+          </section>
+
+          <!-- 2. Dual Panels: Simulation Details + Attack Flow -->
+          <section class="sim-details-flow-grid">
+            
+            <!-- Panel A: Simulation Details -->
+            <div class="sim-card sim-details-card">
+              <div class="sim-card-head">
+                <svg class="head-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                <h3 class="sim-card-heading">Simulation Details</h3>
+              </div>
+              <div class="details-kv-list" id="detailsKvList">
+                <div class="kv-item">
+                  <span class="kv-label">Attack Type</span>
+                  <span class="kv-value" id="dtAttackType">Credential Compromise</span>
+                </div>
+                <div class="kv-item">
+                  <span class="kv-label">Simulated User</span>
+                  <span class="kv-value" id="dtSimUser">X92 (Stolen Credentials)</span>
+                </div>
+                <div class="kv-item">
+                  <span class="kv-label">Device</span>
+                  <span class="kv-value" id="dtDevice">Unknown iPhone (iOS 17)</span>
+                </div>
+                <div class="kv-item">
+                  <span class="kv-label">Location</span>
+                  <span class="kv-value" id="dtLocation">London, UK</span>
+                </div>
+                <div class="kv-item">
+                  <span class="kv-label">Target Endpoint</span>
+                  <span class="kv-value mono" id="dtEndpoint">GET /api/admin/users</span>
+                </div>
+                <div class="kv-item">
+                  <span class="kv-label">Expected Risk</span>
+                  <span class="kv-value" id="dtExpectedRisk">High (80-100)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel B: Attack Flow -->
+            <div class="sim-card sim-flow-card">
+              <div class="sim-card-head">
+                <svg class="head-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="18" cy="5" r="3"/>
+                  <circle cx="6" cy="12" r="3"/>
+                  <circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+                <h3 class="sim-card-heading">Attack Flow</h3>
+              </div>
+              <div class="flow-steps-list" id="flowStepsList">
+                <div class="flow-step-item">
+                  <span class="step-num-badge">1</span>
+                  <span class="step-label">Login with stolen credentials</span>
+                </div>
+                <div class="flow-step-item">
+                  <span class="step-num-badge">2</span>
+                  <span class="step-label">New device and location</span>
+                </div>
+                <div class="flow-step-item">
+                  <span class="step-num-badge">3</span>
+                  <span class="step-label">Multiple rapid requests</span>
+                </div>
+                <div class="flow-step-item">
+                  <span class="step-num-badge">4</span>
+                  <span class="step-label">Access sensitive endpoint</span>
+                </div>
+                <div class="flow-step-item">
+                  <span class="step-num-badge">5</span>
+                  <span class="step-label">Trigger security detection</span>
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- 3. Live API Traffic (During Simulation) Table -->
+          <section class="sim-traffic-card">
+            <div class="traffic-card-top-bar">
+              <div class="traffic-left-title">
+                <!-- Dual Exchange Arrows Icon -->
+                <svg class="traffic-head-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="17 1 21 5 17 9"/>
+                  <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                  <polyline points="7 23 3 19 7 15"/>
+                  <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+                </svg>
+                <h3 class="traffic-title-text">Live API Traffic (During Simulation)</h3>
+                <span class="traffic-live-badge">
+                  <span class="pulse-dot-green"></span>
+                  LIVE
+                </span>
+              </div>
+              <a href="api-traffic.html" class="link-view-all">View All &rarr;</a>
+            </div>
+
+            <div class="sim-table-wrap">
+              <table class="sim-traffic-table">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="th-sort">
+                        <span>Time</span>
+                        <svg class="sort-icon" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"/></svg>
+                      </div>
+                    </th>
+                    <th>User</th>
+                    <th>Endpoint</th>
+                    <th>Device</th>
+                    <th>Location</th>
+                    <th>Risk</th>
+                    <th>Action</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="simTableBody">
+                  <!-- Row 1 (Highlighted Red Selected) -->
+                  <tr class="sim-row selected-attack-row" data-id="sim-1">
+                    <td class="col-time font-red">12:58:14</td>
+                    <td class="col-user">X92</td>
+                    <td class="col-endpoint">/api/admin/users</td>
+                    <td class="col-device">iPhone</td>
+                    <td class="col-loc">London, UK</td>
+                    <td><span class="risk-pill-badge pill-red">94</span></td>
+                    <td><span class="action-pill-badge pill-block">BLOCK</span></td>
+                    <td class="col-more">&#8942;</td>
+                  </tr>
+                  <!-- Row 2 -->
+                  <tr class="sim-row" data-id="sim-2">
+                    <td class="col-time">12:58:13</td>
+                    <td class="col-user">X92</td>
+                    <td class="col-endpoint">/api/admin/users</td>
+                    <td class="col-device">iPhone</td>
+                    <td class="col-loc">London, UK</td>
+                    <td><span class="risk-pill-badge pill-red">91</span></td>
+                    <td><span class="action-pill-badge pill-block">BLOCK</span></td>
+                    <td class="col-more">&#8942;</td>
+                  </tr>
+                  <!-- Row 3 -->
+                  <tr class="sim-row" data-id="sim-3">
+                    <td class="col-time">12:58:12</td>
+                    <td class="col-user">X92</td>
+                    <td class="col-endpoint">/api/admin/users</td>
+                    <td class="col-device">iPhone</td>
+                    <td class="col-loc">London, UK</td>
+                    <td><span class="risk-pill-badge pill-red">87</span></td>
+                    <td><span class="action-pill-badge pill-block">BLOCK</span></td>
+                    <td class="col-more">&#8942;</td>
+                  </tr>
+                  <!-- Row 4 -->
+                  <tr class="sim-row" data-id="sim-4">
+                    <td class="col-time">12:58:11</td>
+                    <td class="col-user">X92</td>
+                    <td class="col-endpoint">/api/login</td>
+                    <td class="col-device">iPhone</td>
+                    <td class="col-loc">London, UK</td>
+                    <td><span class="risk-pill-badge pill-orange">78</span></td>
+                    <td><span class="action-pill-badge pill-limit">LIMIT</span></td>
+                    <td class="col-more">&#8942;</td>
+                  </tr>
+                  <!-- Row 5 -->
+                  <tr class="sim-row" data-id="sim-5">
+                    <td class="col-time">12:58:10</td>
+                    <td class="col-user">X92</td>
+                    <td class="col-endpoint">/api/login</td>
+                    <td class="col-device">iPhone</td>
+                    <td class="col-loc">London, UK</td>
+                    <td><span class="risk-pill-badge pill-orange">62</span></td>
+                    <td><span class="action-pill-badge pill-limit">LIMIT</span></td>
+                    <td class="col-more">&#8942;</td>
+                  </tr>
+                  <!-- Row 6 -->
+                  <tr class="sim-row" data-id="sim-6">
+                    <td class="col-time">12:58:08</td>
+                    <td class="col-user">Rahul</td>
+                    <td class="col-endpoint">/api/profile</td>
+                    <td class="col-device">Android</td>
+                    <td class="col-loc">India</td>
+                    <td><span class="risk-pill-badge pill-green">12</span></td>
+                    <td><span class="action-pill-badge pill-allow">ALLOW</span></td>
+                    <td class="col-more">&#8942;</td>
+                  </tr>
+                  <!-- Row 7 -->
+                  <tr class="sim-row" data-id="sim-7">
+                    <td class="col-time">12:58:05</td>
+                    <td class="col-user">Amit</td>
+                    <td class="col-endpoint">/api/orders</td>
+                    <td class="col-device">Chrome</td>
+                    <td class="col-loc">India</td>
+                    <td><span class="risk-pill-badge pill-green">28</span></td>
+                    <td><span class="action-pill-badge pill-allow">ALLOW</span></td>
+                    <td class="col-more">&#8942;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ================= RIGHT COLUMN ================= -->
+        <div class="sim-right-column">
+          
+          <!-- 1. Simulation in Progress Timeline Card -->
+          <div class="sim-card sim-timeline-card">
+            <div class="timeline-header-row">
+              <div class="timeline-title-left">
+                <!-- Red Radar Target Icon -->
+                <div class="red-target-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="6"/>
+                    <circle cx="12" cy="12" r="2"/>
+                  </svg>
+                </div>
+                <h3 class="timeline-heading-text">Simulation in Progress</h3>
+              </div>
+              <div class="timeline-timer-badge">
+                <span class="timer-red-dot"></span>
+                <span class="timer-time" id="simTimer">00:00:14</span>
+              </div>
+            </div>
+
+            <!-- Vertical Timeline Track -->
+            <div class="vertical-timeline-flow" id="verticalTimelineFlow">
+              
+              <!-- Event 1 -->
+              <div class="timeline-event-row completed">
+                <div class="event-node-col">
+                  <span class="event-ring-dot"></span>
+                  <span class="event-connector-line"></span>
+                </div>
+                <div class="event-text-col">
+                  <span class="event-msg">Starting attack simulation...</span>
+                </div>
+                <div class="event-status-col">
+                  <span class="event-time-col">12:58:10</span>
+                  <span class="event-green-check">
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Event 2 -->
+              <div class="timeline-event-row completed">
+                <div class="event-node-col">
+                  <span class="event-ring-dot"></span>
+                  <span class="event-connector-line"></span>
+                </div>
+                <div class="event-text-col">
+                  <span class="event-msg">Generating login from unknown device...</span>
+                </div>
+                <div class="event-status-col">
+                  <span class="event-time-col">12:58:11</span>
+                  <span class="event-green-check">
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Event 3 -->
+              <div class="timeline-event-row completed">
+                <div class="event-node-col">
+                  <span class="event-ring-dot"></span>
+                  <span class="event-connector-line"></span>
+                </div>
+                <div class="event-text-col">
+                  <span class="event-msg">New location detected (London, UK)...</span>
+                </div>
+                <div class="event-status-col">
+                  <span class="event-time-col">12:58:11</span>
+                  <span class="event-green-check">
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Event 4 -->
+              <div class="timeline-event-row completed">
+                <div class="event-node-col">
+                  <span class="event-ring-dot"></span>
+                  <span class="event-connector-line"></span>
+                </div>
+                <div class="event-text-col">
+                  <span class="event-msg">Increasing request frequency...</span>
+                </div>
+                <div class="event-status-col">
+                  <span class="event-time-col">12:58:12</span>
+                  <span class="event-green-check">
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Event 5 -->
+              <div class="timeline-event-row completed">
+                <div class="event-node-col">
+                  <span class="event-ring-dot"></span>
+                  <span class="event-connector-line"></span>
+                </div>
+                <div class="event-text-col">
+                  <span class="event-msg">Accessing sensitive endpoint...</span>
+                </div>
+                <div class="event-status-col">
+                  <span class="event-time-col">12:58:13</span>
+                  <span class="event-green-check">
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Event 6 (Alert Threat Triggered) -->
+              <div class="timeline-event-row alert-event">
+                <div class="event-node-col">
+                  <span class="event-alert-dot">
+                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  </span>
+                </div>
+                <div class="event-text-col">
+                  <span class="event-msg text-red-bold" id="eventThreatMsg">Threat detected! Risk score: 94</span>
+                </div>
+                <div class="event-status-col">
+                  <span class="event-time-col font-red" id="eventThreatTime">12:58:14</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 2. Threat Detected Alert Banner -->
+          <div class="threat-alert-banner-card" id="threatAlertCard">
+            <div class="alert-icon-box">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <div class="alert-content-col">
+              <h3 class="alert-title-red" id="alertTitle">CRITICAL THREAT DETECTED</h3>
+              <div class="alert-stats-row">
+                <div class="alert-stat-pair">
+                  <span class="alert-stat-lbl">Risk Score:</span>
+                  <span class="alert-score-ratio" id="alertScoreRatio"><strong>94</strong> / 100</span>
+                </div>
+                <div class="alert-stat-pair">
+                  <span class="alert-stat-lbl">Action:</span>
+                  <span class="alert-action-tag red" id="alertActionTag">BLOCKED</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Real-time Impact Dual Line Chart Card -->
+          <div class="sim-card sim-chart-card">
+            <div class="chart-header-row">
+              <div class="chart-title-group">
+                <svg class="chart-head-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="18" cy="5" r="3"/>
+                  <circle cx="6" cy="12" r="3"/>
+                  <circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+                <h3 class="chart-title-text">Real-time Impact</h3>
+              </div>
+              <div class="chart-legend-row">
+                <div class="legend-item-pill">
+                  <span class="legend-circle-dot red"></span>
+                  <span>Risk Score</span>
+                </div>
+                <div class="legend-item-pill">
+                  <span class="legend-circle-dot blue"></span>
+                  <span>Request Frequency</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dual Axis Line Chart Canvas -->
+            <div class="impact-canvas-wrap">
+              <canvas id="impactCanvas" width="460" height="190"></canvas>
+            </div>
+
+            <!-- Bottom Impact Trajectory Indicators -->
+            <div class="impact-metrics-footer">
+              <div class="metric-velocity-pill">
+                <span class="velocity-text" id="metricVelocityText">10 &rarr; 50 &rarr; 150</span>
+                <span class="velocity-sub">req/min</span>
+              </div>
+              <div class="metric-feature-pill">
+                <!-- Phone Icon -->
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                <span>Unknown Device</span>
+              </div>
+              <div class="metric-feature-pill">
+                <!-- Location Pin Icon -->
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>New Location</span>
+              </div>
+              <div class="metric-feature-pill">
+                <!-- Sensitive Endpoint Shield Icon -->
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                <span>Sensitive Endpoint</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script src="attack-simulator.js"></script>
+</body>
+</html>
